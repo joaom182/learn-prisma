@@ -2,7 +2,7 @@
 
 ```bash
 yarn add prisma -D
-yarn add @prisma/client
+yarn add pg @prisma/client
 ```
 
 
@@ -48,6 +48,63 @@ DATABASE_URL="postgresql://<USER>:<PASSWORD>@localhost:5432/<DB_NAME>?schema=pub
 
 ```bash
 npx prisma migrate dev --name init
+```
+
+
+# Integration tests
+
+Install Jest dependencies
+```bash
+yarn add jest-environment-node jest ts-jest @types/jest -D
+```
+
+# Initializing Jest
+
+```
+yarn jest --init
+```
+
+# Add these configurations to jest.config.ts
+
+```
+import { compilerOptions } from './tsconfig.json';
+import { pathsToModuleNameMapper } from 'ts-jest/utils';
+
+{
+  ...otherConfigs,
+  preset: 'ts-jest',
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+    prefix: '<rootDir>'
+  })
+}
+```
+
+
+Execute migrations on your `jest-environment-node` file using `execSync` lib.
+```typescript
+const { execSync } = require('child_process');
+const prismaCli = './node_modules/.bin/prisma';
+
+execSync(`${prismaCli} migrate dev`);
+```
+
+You can load your test environment variables on jest-environment-file using the lib `dotenv`
+```typescript
+require('dotenv').config({
+  path: '.env.test',
+});
+```
+
+You can overwrite environment variables this way:
+```typescript
+this.global.process.env.DATABASE_URL = process.env.DATABASE_URL = 'NEW_VALUE';
+```
+
+Invoke the jest environment file before you execute your tests adding a comment block on the top of your test file
+```typescript
+/**
+ * @jest-environment ./src/configs/jest-environment
+ */
 ```
 
 # Tips
