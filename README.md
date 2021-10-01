@@ -1,11 +1,67 @@
-# About
-This is a Node repo with a base configuration for TypeScript, Jest, Babel, Prettier and Eslint
+# Installing dependencies
 
-# Installing and configuring
-- [TypeScript](./docs/1.%20typescript.md)
-- [Prettier](./docs/2.%20prettier.md)
-- [ESLint](./docs/3.%20eslint.md)
-- [Jest](./docs/4.%20jest.md)
-- [Babel](./docs/5.%20babel.md)
-- [Docker](./docs/6.%20docker.md)
-  
+```bash
+yarn add prisma -D
+yarn add @prisma/client
+```
+
+<br />
+
+# Configuring
+
+Make sure these configuration are on your `tsconfig.json`
+```json
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true
+  }
+}
+```
+
+<br />
+
+# Initializing a prisma project
+```bash
+npx prisma init
+```
+
+> This command created a new directory called prisma which contains a file named schema.prisma and a .env file in the root of the project. schema.prisma contains the Prisma schema with your database connection and the Prisma Client generator. .env is a dotenv file for defining environment variables (used for your database connection).
+
+<br />
+
+# Setting up the database connection
+Edit your `prisma/schema.prisma` file:
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+Add the connection string to  your `.env` file:
+```env
+DATABASE_URL="postgresql://<USER>:<PASSWORD>@localhost:5432/<DB_NAME>?schema=public"
+```
+
+<br />
+
+# Running migrations
+
+```bash
+npx prisma migrate dev --name init
+```
+
+<br />
+<br />
+
+
+# Tips
+- Install [Prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) extension on your VSCode
+
+# Useful links
+- [Prisma Docs](https://www.prisma.io/docs/)
+- [Prisma Studio](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/next-steps-typescript-postgres/#explore-the-data-in-prisma-studio)
