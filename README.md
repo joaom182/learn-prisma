@@ -5,7 +5,6 @@ yarn add prisma -D
 yarn add @prisma/client
 ```
 
-<br />
 
 # Configuring
 
@@ -22,7 +21,6 @@ Make sure these configuration are on your `tsconfig.json`
 }
 ```
 
-<br />
 
 # Initializing a prisma project
 ```bash
@@ -31,7 +29,6 @@ npx prisma init
 
 > This command created a new directory called prisma which contains a file named schema.prisma and a .env file in the root of the project. schema.prisma contains the Prisma schema with your database connection and the Prisma Client generator. .env is a dotenv file for defining environment variables (used for your database connection).
 
-<br />
 
 # Setting up the database connection
 Edit your `prisma/schema.prisma` file:
@@ -47,17 +44,11 @@ Add the connection string to  your `.env` file:
 DATABASE_URL="postgresql://<USER>:<PASSWORD>@localhost:5432/<DB_NAME>?schema=public"
 ```
 
-<br />
-
 # Running migrations
 
 ```bash
 npx prisma migrate dev --name init
 ```
-
-<br />
-<br />
-
 
 # Tips
 - Install [Prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) extension on your VSCode
