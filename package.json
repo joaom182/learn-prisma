@@ -7,13 +7,15 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "build:watch": "yarn build --watch",
     "build:tsc": "tsc -p tsconfig-build.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
-    "docker:build": "docker build -t joaom182/ts-node .",
-    "docker:run": "docker run joaom182/ts-node",
+    "dist": "yarn prisma:generate && yarn build",
+    "docker:build": "docker-compose build",
+    "docker:run": "docker-compose up",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify src/main.ts",
     "lint:fix": "eslint --fix --ext .ts .",
     "lint": "eslint --ext .ts .",
     "test": "jest --coverage=false --useStderr --verbose",
-    "test:watch": "jest --watchAll --coverage=false --useStderr --verbose"
+    "test:watch": "jest --watchAll --coverage=false --useStderr --verbose",
+    "prisma:generate": "yarn prisma generate"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",

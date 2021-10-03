@@ -13,11 +13,24 @@ services:
     ports:
       - '5432:5432'
     networks:
+      - app-network
+    restart: unless-stopped
+
+  app:
+    build: .
+    command: yarn start
+    volumes:
+      - .:/usr/app
+    environment:
+      DATABASE_URL: 'postgresql://docker:docker@postgres:5432/prisma_db?schema=public'
+    depends_on:
       - postgres
+    networks:
+      - app-network
     restart: unless-stopped
 
 networks:
-  postgres:
+  app-network:
     driver: bridge
 
 volumes:
